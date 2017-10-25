@@ -3,6 +3,9 @@ import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableOpaci
 import { saveDeckTitle, getDeck, addCardToDeck } from '../utils/api'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
+import { NavigationActions } from 'react-navigation'
+
+
 
 class AddCard extends Component {
 
@@ -28,8 +31,14 @@ class AddCard extends Component {
       question: '',
       answer: '',
     })
+
+    this.toHome()
   }
 
+  toHome = () => {
+    console.log('toHome called')
+    this.props.navigation.dispatch(NavigationActions.back()) /* somehow back({key: 'AddCard'}) does not work*/
+  }
 
 
   render() {
