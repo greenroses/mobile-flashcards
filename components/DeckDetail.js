@@ -5,18 +5,25 @@ import AddCard from './AddCard'
 import Quiz2 from './Quiz2'
 import getDeck from '../utils/api'
 import { connect } from 'react-redux'
+import { black, white, purple } from '../utils/colors'
 
 
 const DetailHome = ({ navigation, screenProps }) => (
   <View style={styles.container}>
-    <Text>{screenProps.deckTitle}</Text>
-    <Text>{screenProps.num} cards</Text>
+    <View style={styles.deckContainer}>
+      <Text style={styles.deckTitleText}>{screenProps.deckTitle}</Text>
+      <Text style={styles.cardNumText}>{screenProps.num} cards</Text>
+    </View>
     {/*<Text>{getDeck(screenProps.deckTitle).questions.length}</Text> this does not work*/}
-    <TouchableOpacity onPress={() => navigation.navigate('AddCard', {deckTitle: screenProps.deckTitle})}>
-      <Text>Add Card</Text>
+    <TouchableOpacity
+      style={styles.iosBtn}
+      onPress={() => navigation.navigate('AddCard', {deckTitle: screenProps.deckTitle})}>
+      <Text style={styles.btnText}>Add Card</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={() => navigation.navigate('QuizStack', {deckTitle: screenProps.deckTitle})}>
-      <Text>Start Quiz</Text>
+    <TouchableOpacity
+      style={styles.iosBtn}
+      onPress={() => navigation.navigate('QuizStack', {deckTitle: screenProps.deckTitle})}>
+      <Text style={styles.btnText}>Start Quiz</Text>
     </TouchableOpacity>
   </View>
 )
@@ -24,6 +31,9 @@ const DetailHome = ({ navigation, screenProps }) => (
 const Stack = StackNavigator({
   Home: {
     screen: DetailHome,
+    navigationOptions: {
+      header: null
+    },
   },
   AddCard: {
     screen: AddCard,
@@ -55,19 +65,41 @@ class DeckDetail extends Component {
   }
 }
 
-/*  num: this.props.navigation.state.params.num}}/>   */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
-  input: {
-    width: 200,
-    height: 44,
-    padding: 8,
-    borderWidth: 1,
-    margin: 50,
+  deckContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: 30,
+  },
+  deckTitleText: {
+    fontSize: 30,
+    textAlign: 'center'
+  },
+  cardNumText: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  iosBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 10,
+  },
+  btnText: {
+    color: white,
+    fontSize: 15,
+    textAlign: 'center',
   }
 })
 

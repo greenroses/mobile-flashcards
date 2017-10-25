@@ -4,7 +4,7 @@ import { saveDeckTitle, getDeck, addCardToDeck } from '../utils/api'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import { NavigationActions } from 'react-navigation'
-
+import { black, white, purple } from '../utils/colors'
 
 
 class AddCard extends Component {
@@ -59,9 +59,10 @@ class AddCard extends Component {
           placeholder='Answer...'
         />
         <TouchableOpacity
+          style={styles.iosBtn}
           onPress={this.submit}
         >
-          <Text>Submit</Text>
+          <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     )
@@ -74,14 +75,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'white'
   },
   input: {
-    width: 200,
+    width: 300,
     height: 44,
     padding: 8,
     borderWidth: 1,
-    margin: 50,
+    borderRadius: 7,
+    margin: 20,
+  },
+  iosBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 20,
+  },
+  btnText: {
+    color: white,
+    fontSize: 15,
+    textAlign: 'center',
   }
 })
 

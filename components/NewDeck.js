@@ -5,6 +5,8 @@ import { StackNavigator } from 'react-navigation'
 import { AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { newDeck } from '../actions'
+import { black, white, purple } from '../utils/colors'
+
 
 
 class NewDeck extends Component {
@@ -35,7 +37,9 @@ class NewDeck extends Component {
 
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
-        <Text>What is the title of your new deck?</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>What is the title of your new deck?</Text>
+        </View>
         <TextInput
           style={styles.input}
           onChangeText={(title) => this.setState({title})}
@@ -43,28 +47,53 @@ class NewDeck extends Component {
           placeholder='Deck title...'
         />
         <TouchableOpacity
+          style={styles.iosBtn}
           onPress={this.submit}
         >
-          <Text>Submit</Text>
+          <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
+  },
+  infoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
+  },
+  infoText: {
+    fontSize: 30,
+    textAlign: 'center'
   },
   input: {
     width: 200,
     height: 44,
     padding: 8,
     borderWidth: 1,
-    margin: 50,
+    borderRadius: 7,
+    margin: 20,
+  },
+  iosBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 10,
+  },
+  btnText: {
+    color: white,
+    fontSize: 15,
+    textAlign: 'center',
   }
 })
 

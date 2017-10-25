@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity  } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView  } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { getDecks } from '../utils/api'
 import { AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import { loadDecks } from '../actions'
+import { black, white, purple } from '../utils/colors'
+
 
 class Decks extends Component {
 
@@ -33,22 +35,21 @@ class Decks extends Component {
 
     return (
       <View style={styles.container}>
-        <Text>All Decks</Text>
-        <View>
+        <ScrollView >
           {this.props.decks.map((item) => (
-            <View>
+            <View style={styles.deckContainer}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate(
                   'DeckDetail',
                   { deckTitle: item.title, num: item.questions.length}
                 )}
               >
-                <Text>{item.title}</Text>
+                <Text style={styles.deckTitleText}>{item.title}</Text>
               </TouchableOpacity>
-              <Text>{item.questions.length} cards</Text>
+              <Text style={styles.cardNumText}>{item.questions.length} cards</Text>
             </View>
           ))}
-        </View>
+        </ScrollView>
       </View>
     )
   }
@@ -59,13 +60,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
-  input: {
-    width: 200,
-    height: 44,
-    padding: 8,
-    borderWidth: 1,
-    margin: 50,
+  deckContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+  },
+  deckTitleText: {
+    fontSize: 22,
+    textAlign: 'center'
+  },
+  cardNumText: {
+    fontSize: 15,
+    textAlign: 'center'
   }
 })
 

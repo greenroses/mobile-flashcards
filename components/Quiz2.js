@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import { getDailyReminderValue, clearLocalNotification, setLocalNotification } from '../utils/helpers'
+import { black, white, purple, green, red } from '../utils/colors'
 
 
 class Quiz2 extends Component {
@@ -15,7 +16,7 @@ class Quiz2 extends Component {
     total: 0,
     score: 0,
     showingAnswer: false,
-    buttonText: 'answer',
+    buttonText: 'Answer',
     currentSentence:'',
     showResult: false,
   }
@@ -39,14 +40,14 @@ class Quiz2 extends Component {
       this.setState({
         currentSentence: this.state.questions[this.state.index].answer,
         showingAnswer: true,
-        buttonText: 'question',
+        buttonText: 'Question',
       })
     }
     else {
       this.setState({
         currentSentence: this.state.questions[this.state.index].question,
         showingAnswer: false,
-        buttonText: 'answer',
+        buttonText: 'Answer',
       })
     }
   }
@@ -62,7 +63,7 @@ class Quiz2 extends Component {
       this.setState({ index: index })
       this.setState({
         showingAnswer: false,
-        buttonText: 'answer',
+        buttonText: 'Answer',
         currentSentence: this.state.questions[index].question,
       })
     }
@@ -79,7 +80,7 @@ class Quiz2 extends Component {
       this.setState({ index: index })
       this.setState({
         showingAnswer: false,
-        buttonText: 'answer',
+        buttonText: 'Answer',
         currentSentence: this.state.questions[index].question,
       })
     }
@@ -95,7 +96,7 @@ class Quiz2 extends Component {
           index: 0,
           score: 0,
           showingAnswer: false,
-          buttonText: 'answer',
+          buttonText: 'Answer',
           showResult: false,
           currentSentence: this.state.questions[0].question,
         })
@@ -115,32 +116,43 @@ class Quiz2 extends Component {
   render() {
 
     return (
-      <View>
+      <View style={styles.container}>
         {this.state.showResult ? (
-          <View>
-            <Text>RESULT PAGE</Text>
-            <Text>Score {this.state.score}</Text>
-            <TouchableOpacity onPress={this.restartQuiz}>
-              <Text>Restart Quiz</Text>
+          <View style={styles.deckContainer}>
+            <Text style={styles.largeText}>Score: {this.state.score}</Text>
+            <TouchableOpacity
+              style={styles.iosBtn}
+              onPress={this.restartQuiz}>
+              <Text style={styles.btnText}>Restart Quiz</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.backtoDeck}>
-              <Text>Back to Deck</Text>
+            <TouchableOpacity
+              style={styles.iosBtn}
+              onPress={this.backtoDeck}>
+              <Text style={styles.btnText}>Back to Deck</Text>
             </TouchableOpacity>
           </View>
         ) : (
           <View>
-            <Text>QUIZ</Text>
-            <Text>Score {this.state.score}</Text>
-            <Text>{this.state.total - this.state.index}/{this.state.total}</Text>
-            <Text>{this.state.currentSentence}</Text>
-            <TouchableOpacity onPress={this.switch}>
-              <Text>{this.state.buttonText}</Text>
+            <Text style={styles.smallText}>{this.state.total - this.state.index}/{this.state.total}</Text>
+            <View style={styles.deckContainer}>
+              <Text style={styles.largeText}>{this.state.currentSentence}</Text>
+            </View>
+            <View style={styles.switchContainer}>
+              <TouchableOpacity
+                onPress={this.switch}>
+                <Text style={styles.redText}>{this.state.buttonText}</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              style={styles.correctBtn}
+              onPress={this.correctAnswer}>
+              <Text style={styles.btnText}>Correct</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.correctAnswer}>
-              <Text>Correct</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.incorrectAnswer}>
-              <Text>Incorrect</Text>
+            <TouchableOpacity
+              style={styles.incorrectBtn}
+              onPress={this.incorrectAnswer}>
+              <Text style={styles.btnText}>Incorrect</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -150,19 +162,69 @@ class Quiz2 extends Component {
 }
 
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'white'
   },
-  input: {
-    width: 200,
-    height: 44,
-    padding: 8,
-    borderWidth: 1,
-    margin: 50,
+  deckContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: 10,
+    marginTop:50,
+  },
+  switchContainer:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: 50,
+  },
+  largeText: {
+    fontSize: 30,
+    textAlign: 'center'
+  },
+  smallText: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  redText: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: red,
+  },
+  correctBtn: {
+    backgroundColor: green,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 10,
+  },
+  incorrectBtn: {
+    backgroundColor: red,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 10,
+  },
+  iosBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 7,
+    height: 45,
+    marginTop: 20,
+  },
+  btnText: {
+    color: white,
+    fontSize: 15,
+    textAlign: 'center',
   }
 })
 
