@@ -2,61 +2,46 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import QuizStack  from './QuizStack'
+import Quiz from './Quiz'
+import { MyQuizStack } from './QuizStack'
 import DeckDetail from './DeckDetail'
 import AddCard from './AddCard'
 import { connect } from 'react-redux'
-
-const QuizResultHome = ({ navigation, screenProps }) => (
-  <View>
-    <Text>quiz result</Text>
-    <Text>Number of questions answered correctly: {screenProps.score}</Text>
-
-    <TouchableOpacity onPress={() => navigation.navigate(
-      'QuizStack',
-      { deckTitle: screenProps.deckTitle}
-    )}>
-      <Text>Restart Quiz</Text>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => navigation.navigate(
-      'DeckDetail',
-      { deckTitle: screenProps.deckTitle}
-    )}>
-      <Text>Back to Deck</Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity onPress={() => navigation.navigate(
-      'AddCard',
-      { deckTitle: screenProps.deckTitle}
-    )}>
-      <Text>add card test</Text>
-    </TouchableOpacity>
-
-  </View>
-)
-
-
-const ResultStack = StackNavigator({
-  Home: {
-    screen: QuizResultHome,
-  },
-  AddCard: {
-    screen: AddCard,
-  },
-
-  QuizStack: {
-    screen: QuizStack,
-  },
-  DeckDetail: {
-    screen: DeckDetail,
-  }
-})
-
+import { NavigationActions } from 'react-navigation'
 
 
 class QuizResult extends Component {
+
+  toDeck = () => {
+    this.props.navigation.dispatch(NavigationActions.navigate({
+      routeName: 'Main',
+      params: { deckTitle: this.props.navigation.state.params.deckTitle },
+      action: NavigationActions.navigate({ routeName: 'DeckDetail'})
+    }))
+  }
+
+
   render() {
+
     return (
-        <ResultStack screenProps={{deckTitle: this.props.navigation.state.params.deckTitle, score: this.props.navigation.state.params.score}}/>
+
+      <View>
+        <Text>quiz result</Text>
+        <Text>Number of questions answered correctly: {this.props.navigation.state.params.score}</Text>
+
+        <TouchableOpacity onPress={() => this.props.navigation.navigate(
+          'Quiz',
+          { deckTitle: this.props.navigation.state.params.deckTitle}
+        )}>
+          <Text>Restart Quiz</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.toDeck()}>
+          <Text>Back to Deck</Text>
+        </TouchableOpacity>
+      </View>
+
+
     )
   }
 }

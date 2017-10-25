@@ -6,8 +6,7 @@ import Quiz from './Quiz'
 import QuizResult from './QuizResult'
 
 
-
-const Stack = StackNavigator({
+const MyQuizStack = StackNavigator({
   Home: {
     screen: Quiz,
   },
@@ -21,7 +20,7 @@ export default class QuizStack extends React.Component {
     return (
       <View style={{flex: 1}}>
 
-        <Stack screenProps={{deckTitle: this.props.navigation.state.params.deckTitle}}/>
+        <MyQuizStack screenProps={{deckTitle: this.props.navigation.state.params.deckTitle}}/>
       </View>
     )
   }

@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
-import QuizResult from './QuizResult'
+import { NavigationActions } from 'react-navigation'
 
 
-class Quiz extends Component {
+class Quiz2 extends Component {
 
   state = {
     title: '',
@@ -16,26 +16,20 @@ class Quiz extends Component {
     showingAnswer: false,
     buttonText: 'answer',
     currentSentence:'',
+    showResult: false,
   }
 
   componentDidMount() {
     const title = this.props.screenProps.deckTitle
     this.setState({title: title})
-    console.log(title)
-    console.log(this.props.decks)
-    console.log(this.props.decks.filter(item => item.title==title))
-    console.log(this.props.decks.filter(item => item.title==title)[0])
     const questions = this.props.decks.filter(item => item.title==title)[0].questions
     this.setState({questions: questions})
     this.setState({total: questions.length})
     if ( questions.length != 0 ) {
       this.setState({currentSentence: questions[this.state.index].question})
     }
-    else {
-      this.props.navigation.navigate(
-          'QuizResult',
-          { deckTitle: this.state.title, score: 0}
-        )
+    else { /* if no question, display result directly */
+      this.setState({showResult: true})
     }
   }
 
@@ -72,11 +66,7 @@ class Quiz extends Component {
       })
     }
     else {
-      /* route to QuizResult page*/
-      this.props.navigation.navigate(
-        'QuizResult',
-        { deckTitle: this.state.title, score: score}  /* somehow score: this.state.score does not reflect the latest score */
-      )
+      this.setState({showResult: true})
 
     }
   }
@@ -93,34 +83,65 @@ class Quiz extends Component {
       })
     }
     else {
-      /* route to QuizResult page*/
-
-      this.props.navigation.navigate(
-          'QuizResult',
-          { deckTitle: this.state.title, score: score}
-        )
+      this.setState({showResult: true})
     }
   }
 
+  restartQuiz = () => {
+    if ( this.state.questions.length != 0 ) {
+      this.setState({
+          index: 0,
+          score: 0,
+          showingAnswer: false,
+          buttonText: 'answer',
+          showResult: false,
+          currentSentence: this.state.questions[0].question,
+        })
+      let testnum = this.state.index
+      let score = this.state.score
+    } else {
+      /* do nothing */
+    }
+  }
 
+  /* go back to DeckDetail page */
+  backtoDeck = () => {
+    this.props.navigation.dispatch(NavigationActions.back()) /* somehow back({key: 'AddCard'}) does not work*/
+  }
+
+  /* use conditional rendering to display quiz and result */
   render() {
 
     return (
       <View>
-        <Text>QUIZ</Text>
-        <Text>Score {this.state.score}</Text>
-        <Text>{this.state.total - this.state.index}/{this.state.total}</Text>
-        <Text>{this.state.currentSentence}</Text>
-        <TouchableOpacity onPress={this.switch}>
-          <Text>{this.state.buttonText}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.correctAnswer}>
-          <Text>Correct</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.incorrectAnswer}>
-          <Text>Incorrect</Text>
-        </TouchableOpacity>
-
+        {this.state.showResult ? (
+          <View>
+            <Text>RESULT PAGE</Text>
+            <Text>Score {this.state.score}</Text>
+            <TouchableOpacity onPress={this.restartQuiz}>
+              <Text>Restart Quiz</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.backtoDeck}>
+              <Text>Back to Deck</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View>
+            <Text>QUIZ</Text>
+            <Text>Score {this.state.score}</Text>
+            <Text>{this.state.total - this.state.index}/{this.state.total}</Text>
+            <Text>{this.state.currentSentence}</Text>
+            <TouchableOpacity onPress={this.switch}>
+              <Text>{this.state.buttonText}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.correctAnswer}>
+              <Text>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.incorrectAnswer}>
+              <Text>Incorrect</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     )
   }
@@ -154,4 +175,4 @@ function mapStateToProps (state) { /*must use state, not decks here, because dec
 }
 export default connect(
   mapStateToProps
-)(Quiz)
+)(Quiz2)

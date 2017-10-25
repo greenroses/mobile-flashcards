@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import AddCard from './AddCard'
-import QuizStack from './QuizStack'
+import Quiz2 from './Quiz2'
 import getDeck from '../utils/api'
 import { connect } from 'react-redux'
 
@@ -32,7 +32,7 @@ const Stack = StackNavigator({
     }
   },
   QuizStack: {
-    screen: QuizStack,
+    screen: Quiz2,
     navigationOptions: {
       title: 'Quiz'
     }
@@ -79,6 +79,7 @@ function mapStateToProps (state) { /*must use state, not decks here, because dec
     )),
   }
 }
+
 export default connect(
   mapStateToProps
 )(DeckDetail)
