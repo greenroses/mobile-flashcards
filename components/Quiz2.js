@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableOpaci
 import { StackNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
+import { getDailyReminderValue, clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 
 class Quiz2 extends Component {
@@ -65,9 +66,9 @@ class Quiz2 extends Component {
         currentSentence: this.state.questions[index].question,
       })
     }
-    else {
+    else { /* quiz completed, display the score etc */
       this.setState({showResult: true})
-
+      clearLocalNotification().then(setLocalNotification)
     }
   }
 
@@ -84,6 +85,7 @@ class Quiz2 extends Component {
     }
     else {
       this.setState({showResult: true})
+      clearLocalNotification().then(setLocalNotification)
     }
   }
 
