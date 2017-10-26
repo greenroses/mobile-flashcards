@@ -49,6 +49,7 @@ class NewDeck extends Component {
         <TouchableOpacity
           style={styles.iosBtn}
           onPress={this.submit}
+          disabled={!this.state.title}  /* disable button when input is empty to avoid error */
         >
           <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>

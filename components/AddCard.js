@@ -61,6 +61,7 @@ class AddCard extends Component {
         <TouchableOpacity
           style={styles.iosBtn}
           onPress={this.submit}
+          disabled={(!this.state.question) || (!this.state.answer)}  /* disable button when input is empty */
         >
           <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
