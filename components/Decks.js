@@ -36,7 +36,7 @@ class Decks extends Component {
     return (
       <View style={styles.container}>
         <ScrollView >
-          {this.props.decks.map((item, index) => (
+          {this.props.decks.filter(item => (item.title && item.questions)).map((item, index) => (
             <View key={index} style={styles.deckContainer}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate(
